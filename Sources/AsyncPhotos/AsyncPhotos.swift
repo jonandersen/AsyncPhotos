@@ -158,7 +158,7 @@ public extension Async where Wrapped: PHImageManager {
                 } 
                 
                 // Store the synchronously obtained ID in the holder
-                idHolder.id = currentRequestID.
+                idHolder.id = currentRequestID
             }
         } onCancel: {
             // Read the ID from the holder. This is safe because the assignment happened before the await.
