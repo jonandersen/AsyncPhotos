@@ -69,11 +69,11 @@ public extension Async where Wrapped: PHImageManager {
                     return
                 }
                 
-                if info?[PHImageResultIsDegradedKey] as? Bool == true {
-                    // When degraded image is provided, the completion handler will be called again.
-                }
-                
                 continuation.yield(image)
+                let isImageDegraded = info?[PHImageResultIsDegradedKey] as? Bool == true
+                if !isImageDegraded {
+                    continuation.finish()
+                }
             }
             continuation.onTermination = {@Sendable termination in
                 switch termination {
@@ -115,11 +115,10 @@ public extension Async where Wrapped: PHImageManager {
                 continuation.yield((data: data, dataUTI: dataUTI, orientation: orientation))
                 
                 // Check if this is the final result. If the key is absent or false, it's final.
-                let isFinalResult = info?[PHImageResultIsDegradedKey] as? Bool == false
-                if isFinalResult {
+                let isImageDegraded = info?[PHImageResultIsDegradedKey] as? Bool == true
+                if !isImageDegraded {
                     continuation.finish()
                 }
-                // If it's degraded (true), we just yielded and wait for the next call.
             }
             
             continuation.onTermination = { @Sendable termination in
@@ -197,8 +196,8 @@ public extension Async where Wrapped: PHImageManager {
                 continuation.yield(uncheckedSendable.unwrap)
                 
                 // Check if final result
-                let isFinalResult = info?[PHImageResultIsDegradedKey] as? Bool == false
-                if isFinalResult {
+                let isImageDegraded = info?[PHImageResultIsDegradedKey] as? Bool == true
+                if !isImageDegraded {
                     continuation.finish()
                 }
             }
