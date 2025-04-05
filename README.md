@@ -15,7 +15,7 @@ A Swift library that provides modern Swift concurrency wrappers around PHImageMa
 
 ## Requirements
 
-- iOS 15.0+ / macOS 12.0+
+- iOS 15.0+ 
 - Swift 5.5+
 - Xcode 14.0+
 
