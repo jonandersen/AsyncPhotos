@@ -18,7 +18,3 @@ public extension Async where Wrapped == Any {
         self.wrapped = wrapped
     }
 }
-
-public extension NSObjectProtocol {
-    var backport: Async<Self> { .init(self) }
-}
